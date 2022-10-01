@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2022-10-01T18:48:52+0200
+# Last modified: 2022-10-01T20:04:14+0200
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -114,11 +114,11 @@ def _main():
     for infn in args.files:
         contents = read_frd(infn)
         if args.json:
-            write_json(contents, infn[:-4]+".json")
+            write_json(contents, infn[:-4] + ".json")
         elif args.pickle:
-            write_pickle(contents, infn[:-4]+".pickle")
+            write_pickle(contents, infn[:-4] + ".pickle")
         elif args.sqlite:
-            write_sqlite(contents, infn[:-4]+".db")
+            write_sqlite(contents, infn[:-4] + ".db")
 
 
 def _setup():
