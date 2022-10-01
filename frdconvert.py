@@ -5,14 +5,13 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2022-10-01T17:21:12+0200
+# Last modified: 2022-10-01T18:45:34+0200
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
 
 Currently supports JSON, sqlite3 and pickle (for Python) output formats.
 """
-
 
 import argparse
 import itertools as itt
@@ -110,20 +109,10 @@ class LicenseAction(argparse.Action):
         sys.exit()
 
 
-def main():
+def _main():
     args = setup()
     for infn in args.files:
-        with open(infn) as file:
-            lines = [ln.strip() for ln in file]
-        logging.info(f"file “{infn}” contains {len(lines)} lines.")
-        ranges = find_ranges(lines)
-        contents = {}
-        for name in ranges.keys():
-            if name not in NODE_RELATED:
-                continue  # skip
-            logging.info(f"extracting {name}")
-            first, last = ranges[name]
-            contents[name] = process_float_data(lines, first, last)
+        contents = read_frd(infn)
         if args.json:
             write_json(contents, infn[:-4]+".json")
         elif args.pickle:
@@ -174,7 +163,23 @@ def setup():
     return args
 
 
-def find_ranges(lines):
+def read_frd(path):
+    """Read and return the data in an frd file as a dictionary."""
+    with open(path) as file:
+        lines = [ln.strip() for ln in file]
+    logging.info(f"file “{path}” contains {len(lines)} lines.")
+    ranges = _find_ranges(lines)
+    contents = {}
+    for name in ranges.keys():
+        if name not in NODE_RELATED:
+            continue  # skip
+        logging.info(f"extracting {name}")
+        first, last = ranges[name]
+        contents[name] = _process_float_data(lines, first, last)
+    return contents
+
+
+def _find_ranges(lines):
     """Find the start and end lines of the different data sets."""
     starts, ends = {}, {}
     for num, ln in enumerate(lines):
@@ -196,8 +201,8 @@ def find_ranges(lines):
     return ranges
 
 
-def process_float_data(lines, first, last):
-    """Convert node-related float data to a dict."""
+def _process_float_data(lines, first, last):
+    """Convert node-related float data to a dictionary."""
     data = {}
     while not lines[first].startswith("-1"):
         first += 1
@@ -211,7 +216,7 @@ def process_float_data(lines, first, last):
 
 
 def write_json(contents, name):
-    """Write the contents directory to a JSON file."""
+    """Write the contents dictionary to a JSON file."""
     logging.info(f"writing JSON file “{name}”")
     with open(name, "w") as outfile:
         outfile.write("{" + os.linesep)
@@ -229,12 +234,14 @@ def write_json(contents, name):
 
 
 def write_pickle(contents, name):
+    """Write the contents dictionary to a pickle file."""
     logging.info(f"writing pickle file “{name}”")
     with open(name, "wb") as outfile:
         pickle.dump(contents, outfile)
 
 
 def write_sqlite(contents, name):
+    """Write the contents dictionary to a sqlite3 database."""
     # Remove existing database.
     if os.path.isfile(name):
         logging.info(f"removing existing database “{name}”")
@@ -260,4 +267,4 @@ def write_sqlite(contents, name):
 
 
 if __name__ == "__main__":
-    main()
+    _main()
