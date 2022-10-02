@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2022-10-02T11:48:05+0200
+# Last modified: 2022-10-02T11:55:16+0200
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -110,6 +110,7 @@ class _LicenseAction(argparse.Action):
 
 
 def _main():
+    """Entry point when frdconvert.py is called as a program."""
     args = _setup()
     for infn in args.files:
         contents = read_frd(infn)
@@ -173,9 +174,9 @@ def read_frd(path):
     for name in ranges.keys():
         if name not in NODE_RELATED:
             continue  # skip
-        logging.info(f"extracting {name}")
         first, last = ranges[name]
         contents[name] = _process_float_data(lines, first, last)
+        logging.info(f"extracted {len(contents[name])} “{name}”")
     return contents
 
 
