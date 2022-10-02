@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2022-10-01T20:04:14+0200
+# Last modified: 2022-10-02T11:40:13+0200
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -101,7 +101,7 @@ NODE_RELATED = (
 )
 
 
-class LicenseAction(argparse.Action):
+class _LicenseAction(argparse.Action):
     """Action class to print the license."""
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -143,7 +143,7 @@ def _setup():
         help="save FRD file contents in sqlite3 database format",
     )
     parser.add_argument(
-        "-l", "--license", action=LicenseAction, nargs=0, help="print the license"
+        "-l", "--license", action=_LicenseAction, nargs=0, help="print the license"
     )
     parser.add_argument("-v", "--version", action="version", version=__version__)
     parser.add_argument(
