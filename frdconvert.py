@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2022-10-02T11:55:16+0200
+# Last modified: 2022-10-02T13:15:38+0200
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -165,7 +165,15 @@ def _setup():
 
 
 def read_frd(path):
-    """Read and return the data in an frd file as a dictionary."""
+    """
+    Read and return the data in an frd file as a dictionary of dictionaries.
+
+    The return value is a dictionary with the keys being the names of the
+    data sets present in the FRD-file.
+    The values in the underlying dictionaries are tuples of ``float``.
+    The keys are the number of the node that the tuple belong to.
+    Note that node numbers do not have to start at 1!
+    """
     with open(path) as file:
         lines = [ln.strip() for ln in file]
     logging.info(f"file “{path}” contains {len(lines)} lines.")
@@ -203,7 +211,7 @@ def _find_ranges(lines):
 
 
 def _process_float_data(lines, first, last):
-    """Convert node-related float data to a dictionary."""
+    """Convert node-related float data to a dictionary indexed by the node number."""
     data = {}
     while not lines[first].startswith("-1"):
         first += 1
