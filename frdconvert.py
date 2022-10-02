@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2022-10-02T11:40:13+0200
+# Last modified: 2022-10-02T11:48:05+0200
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -195,7 +195,7 @@ def _find_ranges(lines):
             starts[items[1]] = num + 1
         # Data ends with a “-3”-line.
         elif ln.startswith("-3"):
-            ends[list(starts.keys())[-1]] = num - 1
+            ends[next(reversed(starts.keys()))] = num - 1
     ranges = {name: (starts[name], ends[name]) for name in starts.keys()}
     del starts, ends
     return ranges
@@ -250,7 +250,7 @@ def write_sqlite(contents, name):
     logging.info(f"writing sqlite database “{name}”")
     with sqlite3.connect(name) as con:
         for name, data in contents.items():
-            firstkey = list(data.keys())[0]
+            firstkey = next(iter(data.keys()))
             length = len(data[firstkey]) + 1
             tableq = f"CREATE TABLE {name}(node INTEGER PRIMARY KEY, "
             tableq += ", ".join(f"r{idx} REAL" for idx in range(1, length))
