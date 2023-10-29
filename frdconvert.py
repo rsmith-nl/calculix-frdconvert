@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2022-10-02T13:15:38+0200
+# Last modified: 2023-10-29T22:46:04+0100
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -228,18 +228,18 @@ def write_json(contents, name):
     """Write the contents dictionary to a JSON file."""
     logging.info(f"writing JSON file “{name}”")
     with open(name, "w") as outfile:
-        outfile.write("{" + os.linesep)
-        items = [[name, data, "  },"] for name, data in contents.items()]
-        items[-1][2] = "  }"
+        outfile.write("{\n")
+        items = [[name, data, "  },\n"] for name, data in contents.items()]
+        items[-1][2] = "  }\n"
         for name, data, sep in items:
-            outfile.write(f'  "{name}": ' + "{" + os.linesep)
-            buffer = f",{os.linesep}".join(
+            outfile.write(f'  "{name}": ' + "{\n")
+            buffer = ",\n".join(
                 f'    "{node}": [{", ".join(str(f) for f in values)}]'
                 for node, values in data.items()
             )
-            outfile.write(buffer + os.linesep)
-            outfile.write(sep + os.linesep)
-        outfile.write("}" + os.linesep)
+            outfile.write(buffer + "\n")
+            outfile.write(sep)
+        outfile.write("}\n")
 
 
 def write_pickle(contents, name):
