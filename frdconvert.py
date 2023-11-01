@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2023-10-29T22:46:04+0100
+# Last modified: 2023-11-01T22:43:33+0100
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -47,7 +47,7 @@ SOFTWARE.
 
 # These data are node-related.
 # The first item, NODES is special. It contains the original positions of the
-# noded.
+# nodes.
 NODE_RELATED = (
     "NODES",
     "CP3DF",
