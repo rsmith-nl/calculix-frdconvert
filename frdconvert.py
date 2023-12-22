@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2023-11-01T22:43:33+0100
+# Last modified: 2023-12-23T00:09:54+0100
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -21,8 +21,8 @@ import pickle
 import sys
 import sqlite3
 
-__version__ = "2022.10.01"
-__license__ = f"""frdconvert {__version__}
+__version__ = "2023.12.23"
+__license__ = f"""{os.path.basename(__file__)} {__version__}
 Copyright © 2022 R.F. Smith
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
