@@ -5,7 +5,7 @@
 # Copyright © 2022 R.F. Smith <rsmith@xs4all.nl>
 # SPDX-License-Identifier: MIT
 # Created: 2022-10-01T10:01:55+0200
-# Last modified: 2023-12-23T00:09:54+0100
+# Last modified: 2023-12-23T00:13:43+0100
 """
 Extract the node-related data from a CalculiX FRD file and save it in formats
 suitable for use with programming languages.
@@ -159,7 +159,8 @@ def _setup():
     args = parser.parse_args(sys.argv[1:])
     logging.basicConfig(
         level=getattr(logging, args.log.upper(), None),
-        format="%(levelname)s: %(message)s",
+        format="%(asctime)s.%(msecs)03d %(levelname)s: %(message)s",
+        datefmt="%H:%M:%S",
     )
     return args
 
