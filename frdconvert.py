@@ -205,7 +205,7 @@ def _find_ranges(lines):
             starts[items[1]] = num + 1
         # Data ends with a “-3”-line.
         elif ln.startswith("-3"):
-            ends[next(reversed(starts.keys()))] = num - 1
+            ends[next(reversed(starts.keys()))] = num 
     ranges = {name: (starts[name], ends[name]) for name in starts.keys()}
     del starts, ends
     return ranges
