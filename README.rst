@@ -5,7 +5,7 @@ Converter for CalculiX FRD files
 :tags: CalculiX, Python
 :author: Roland Smith
 
-.. Last modified: 2022-10-01T20:02:47+0200
+.. Last modified: 2026-05-10T13:52:58+0200
 .. vim:spelllang=en
 
 On several occasions, the author has written small scripts to extract data
@@ -24,6 +24,15 @@ languages.
 ``frdconvert`` has been written so that it can be used as a Python module
 *and* as a standalone program.
 It uses only modules from the Python standard library.
+
+
+No AI policy
+============
+
+This program is written by a human and for humans.
+
+Writing a program such as this requires domain expertise and judgement.
+Therefore “AI” / LLM-generated rewrites and additions are not welcome.
 
 
 Usage as a module
